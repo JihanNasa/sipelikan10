@@ -1,0 +1,1 @@
+@include('stisla.includes.forms.inputs.input', ['id' => $id ?? 'phone_number', 'label' => $label ?? __('Nomor Telepon'), 'icon' => $icon ?? 'fas fa-phone'])

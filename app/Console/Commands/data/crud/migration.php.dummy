@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('log_requests', function (Blueprint $table) {
+            $table->id(); // Kolom ID utama untuk tabel log_requests
+            $table->unsignedBigInteger('user_id')->nullable(); // Kolom user_id, bisa null jika request tidak dari user login
+            $table->string('method'); // Metode HTTP (GET, POST, dll.)
+            $table->string('url', 2048); // URL request
+            $table->text('request_body')->nullable(); // Body request (untuk POST/PUT)
+            $table->string('ip_address')->nullable(); // Alamat IP pengirim request
+            $table->string('user_agent')->nullable(); // User agent browser
+            $table->integer('status_code')->nullable(); // Kode status respons HTTP
+            $table->timestamps(); // created_at dan updated_at
+
+            // Definisi Foreign Key dengan ON DELETE CASCADE
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade'); // Ini adalah perubahan pentingnya
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('log_requests');
+    }
+};
