@@ -167,6 +167,7 @@
                   <option value="Kuwe (Carangoides armatus)">{{ old('jenis_ikan') == 'Kuwe (Carangoides armatus)' ? 'selected' : '' }}Kuwe (Carangoides armatus)</option>
                   <option value="Kuwe Gerong (Caranx ignobilis)">{{ old('jenis_ikan') == 'Kuwe Gerong (Caranx ignobilis)' ? 'selected' : '' }}Kuwe Gerong (Caranx ignobilis)</option>
                   <option value="Kuwe Semar (Carangoides hedlandensis)">{{ old('jenis_ikan') == 'Kuwe Semar (Carangoides hedlandensis)' ? 'selected' : '' }}Kuwe Semar (Carangoides hedlandensis)</option>
+                  <option value="Krill (Euphausia superba)">{{ old('jenis_ikan') == 'Krill (Euphausia superba)' ? 'selected' : '' }}Krill (Euphausia superba)</option>
                   <option value="Layang (Decapterus maruadsi)">{{ old('jenis_ikan') == 'Layang (Decapterus maruadsi)' ? 'selected' : '' }}Layang (Decapterus maruadsi)</option>
                   <option value="Layang Anggur (Decapterus kurroides)">{{ old('jenis_ikan') == 'Layang Anggur (Decapterus kurroides)' ? 'selected' : '' }}Layang Anggur (Decapterus kurroides)</option>
                   <option value="Layang Benggol (Decapterus russelli)">{{ old('jenis_ikan') == 'Layang Benggol (Decapterus russelli)' ? 'selected' : '' }}Layang Benggol (Decapterus russelli)</option>

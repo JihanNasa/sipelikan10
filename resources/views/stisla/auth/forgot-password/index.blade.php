@@ -18,7 +18,7 @@
             <p class="text-muted">Sebelum memulai, anda harus masuk terlebih dahulu dengan akun anda.
             </p>
           </div>
-          <form method="POST" action="" class="needs-validation" novalidate="">
+          <form method="POST" action="{{ route('forgot-password') }}" class="needs-validation" novalidate="">
             @csrf
             @include('includes.form.input-email')
             {{-- @include('includes.form.input-password') --}}

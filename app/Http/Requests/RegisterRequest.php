@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Repositories\SettingRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Route;
 
 class RegisterRequest extends FormRequest
@@ -91,5 +93,13 @@ class RegisterRequest extends FormRequest
             'g-recaptcha-response.required'  => 'Captcha harus diisi.',
             'g-recaptcha-response.captcha'   => 'Captcha tidak valid.',
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            redirect()->route("register")
+                ->withErrors($validator)
+                ->withInput()
+        );
     }
 }

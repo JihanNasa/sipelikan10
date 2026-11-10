@@ -13,7 +13,7 @@
         <h3>{{ $user->verification_code ?? 'XXXXXX' }}</h3>
     @else
       <p>Silakan klik link berikut untuk reset password:</p>
-      <a href="{{ route('reset-password', $user->email_token) }}">
+      <a href="{{ url('/auth/reset-password/' . $user->email_token) }}">
           Reset Password
       </a>
     @endif

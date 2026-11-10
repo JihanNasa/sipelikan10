@@ -173,14 +173,12 @@ class AuthController extends StislaController
         $user = $this->userRepository->findByEmail($request->email);
     
         if (!$user) {
-            return Helper::backError(['email' => __('Email tidak terdaftar')]);
+            return Helper::backError(['email' => __('Email tidak terdaftar')], route('login'));
         }
 
         // Validasi akun nonaktif
         if (!$user->is_active) {
-            return Helper::backError([
-                'email' => 'Akun Anda telah dinonaktifkan. Silakan kirim email ke sipelikan.dkpjabar@gmail.com untuk klarifikasi.'
-            ]);
+            return Helper::backError(['email' => 'Akun Anda telah dinonaktifkan. Silakan kirim email ke sipelikan@jabarprov.go.id untuk klarifikasi.'], route('login'));
         }
     
         if (!Hash::check($request->password, $user->password)) {
@@ -189,15 +187,15 @@ class AuthController extends StislaController
             if ($userNew->wrong_login >= $maxWrongLogin) {
                 $userNew->update(['is_active' => false]);
                 logExecute(__('Login'), UPDATE, $user, $userNew);
-                return Helper::backError(['email' => __('Akun anda sudah diblokir')]);
+                return Helper::backError(['email' => __('Akun anda sudah diblokir')], route('login'));
             }
             logExecute(__('Login'), UPDATE, $user, $userNew);
-            return Helper::backError(['password' => __('Password yang dimasukkan salah (' . $userNew->wrong_login . ')')]);
+            return Helper::backError(['password' => __('Password yang dimasukkan salah (' . $userNew->wrong_login . ')')], route('login'));
         }
     
         // jika butuh verifikasi email
         if ($this->settingRepository->loginMustVerified() && $user->email_verified_at === null) {
-            return Helper::backError(['email' => __('Email belum diverifikasi')]);
+            return Helper::backError(['email' => __('Email belum diverifikasi')], route('login'));
         }
     
         $this->userRepository->login($user);
@@ -266,7 +264,7 @@ class AuthController extends StislaController
             $this->emailService->forgotPassword($userNew);
             logForgotPassword($user, $userNew);
             DB::commit();
-            return back()->withInput()->with('successMessage', __('Berhasil mengirim ke ' . $request->email));
+            return redirect()->route('forgot-password')->withInput()->with('successMessage', __('Berhasil mengirim ke ' . $request->email));
         } catch (Exception $e) {
             DB::rollBack();
             if (Str::contains($e->getMessage(), 'Connection could not be established')) {

@@ -27,7 +27,9 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'guest.only' => \App\Http\Middleware\PreventAuthenticatedAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

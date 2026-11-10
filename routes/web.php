@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LaporanMenuController;
 use App\Http\Controllers\AuthController;
 
+Route::get('/', function () {
+    return redirect('/sipelikan');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

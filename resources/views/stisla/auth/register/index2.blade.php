@@ -6,7 +6,7 @@
 
 @section('content')
   <div class="card-body">
-    <form method="POST" action="" class="needs-validation" novalidate="">
+    <form method="POST" action="{{ route('register.post') }}" class="needs-validation" novalidate="">
       @csrf
 
       @include('stisla.includes.forms.inputs.input-email')

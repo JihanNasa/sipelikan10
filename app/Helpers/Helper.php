@@ -14,13 +14,14 @@ class Helper
      * @param array $errorMessages
      * @return RedirectResponse
      */
-    public static function backError(array $errorMessages)
+    public static function backError(array $errorMessages, string $redirectTo = null)
     {
         $validator = Validator::make([], []);
         foreach ($errorMessages as $key => $value) {
             $validator->getMessageBag()->add($key, $value);
         }
-        return redirect()->back()->withInput()->withErrors($validator);
+        $redirect = $redirectTo ? redirect($redirectTo) : redirect()->back();
+        return $redirect->withInput()->withErrors($validator);
     }
 
     function customRequestCaptcha()

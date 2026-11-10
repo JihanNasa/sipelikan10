@@ -23,6 +23,14 @@ class LoginRequest extends FormRequest
      *
      * @return array
      */
+
+    protected function getRedirectUrl()
+    {
+        if ($this->expectsJson()) {
+            return parent::getRedirectUrl();
+        }
+        return route('login');
+    }
     public function rules()
     {
         if (Route::is('api.login')) {

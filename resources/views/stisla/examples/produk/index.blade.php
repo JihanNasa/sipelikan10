@@ -59,7 +59,6 @@
                     <option value="Abalone Beku" {{ old('jenis_produk') == 'Abalone Beku' ? 'selected' : '' }}>Abalone Beku</option>
                     <option value="Abalone Kering" {{ old('jenis_produk') == 'Abalone Kering' ? 'selected' : '' }}>Abalone Kering</option>
                     <option value="Abon Ikan">{{ old('jenis_produk') == 'Abon Ikan' ? 'selected' : '' }}Abon Ikan</option>
-                    <option value="Abon Ikan">{{ old('jenis_produk') == 'Abon Ikan' ? 'selected' : '' }}Abon Ikan</option>
                     <option value="Abon Ikan Cakalang">{{ old('jenis_produk') == 'Abon Ikan Cakalang' ? 'selected' : '' }}Abon Ikan Cakalang</option>
                     <option value="Abon Ikan Nila">{{ old('jenis_produk') == 'Abon Ikan Nila' ? 'selected' : '' }}Abon Ikan Nila</option>
                     <option value="Abon Lele">{{ old('jenis_produk') == 'Abon Lele' ? 'selected' : '' }}Abon Lele</option>
@@ -81,6 +80,7 @@
                     <option value="Belut Beku">{{ old('jenis_produk') == 'Belut Beku' ? 'selected' : '' }}Belut Beku</option>
                     <option value="Bola Arteri Beku">{{ old('jenis_produk') == 'Bola Arteri Beku' ? 'selected' : '' }}Bola Arteri Beku</option>
                     <option value="Bubuk Jeli, Bubuk Puding">{{ old('jenis_produk') == 'Bubuk Jeli, Bubuk Puding' ? 'selected' : '' }}Bubuk Jeli, Bubuk Puding</option>
+                    <option value="Bubuk Udang" {{ old('jenis_produk') == 'Bubuk Udang' ? 'selected' : '' }}>Bubuk Udang</option>
                     <option value="Bulu Babi Beku">{{ old('jenis_produk') == 'Bulu Babi Beku' ? 'selected' : '' }}Bulu Babi Beku</option>
                     <option value="Bulu Babi Segar">{{ old('jenis_produk') == 'Bulu Babi Segar' ? 'selected' : '' }}Bulu Babi Segar</option>
                     <option value="Bumbu berbahan terasi">{{ old('jenis_produk') == 'Bumbu berbahan terasi' ? 'selected' : '' }}Bumbu berbahan terasi</option>
@@ -249,6 +249,7 @@
                     <option value="Pari Beku">{{ old('jenis_produk') == 'Pari Beku' ? 'selected' : '' }}Pari Beku</option>
                     <option value="Pari Kering">{{ old('jenis_produk') == 'Pari Kering' ? 'selected' : '' }}Pari Kering</option>
                     <option value="Patin Beku">{{ old('jenis_produk') == 'Patin Beku' ? 'selected' : '' }}Patin Beku</option>
+                    <option value="Pasta Udang/Shrimp Sauce" {{ old('jenis_produk') == 'Pasta Udang/Shrimp Sauce' ? 'selected' : '' }}>Pasta Udang/Shrimp Sauce</option>
                     <option value="Pempek Ikan">{{ old('jenis_produk') == 'Pempek Ikan' ? 'selected' : '' }}Pempek Ikan</option>
                     <option value="Pempek Kriuk">{{ old('jenis_produk') == 'Pempek Kriuk' ? 'selected' : '' }}Pempek Kriuk</option>
                     <option value="Pepes Ikan">{{ old('jenis_produk') == 'Pepes Ikan' ? 'selected' : '' }}Pepes Ikan</option>

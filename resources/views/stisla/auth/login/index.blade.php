@@ -15,7 +15,7 @@
 
     @include('stisla.auth.login.includes.alert-info')
 
-    <form method="POST" action="" class="needs-validation" novalidate="" id="formLogin">
+    <form method="POST" action="{{ route('login-post') }}" class="needs-validation" novalidate="" id="formLogin">
       @csrf
       @include('stisla.includes.forms.inputs.input-email')
       {{-- @include('stisla.includes.form.input-password') --}}
