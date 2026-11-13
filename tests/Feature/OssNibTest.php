@@ -274,6 +274,15 @@ class OssNibTest extends TestCase
         $this->assertTrue($v->passes());
     }
 
+    public function test_perbandingan_nama_mengabaikan_badan_usaha_dan_tanda_baca(): void
+    {
+        $this->assertTrue(OssNibResult::namaSama('PT Aneka Dasuib Jaya', 'ANEKA DASUIB JAYA '));
+        $this->assertTrue(OssNibResult::namaSama('CV. Sumber Laut', 'SUMBER LAUT, CV'));
+        $this->assertTrue(OssNibResult::namaSama('Koperasi Mina Sejahtera', 'MINA SEJAHTERA'));
+        $this->assertTrue(OssNibResult::namaSama('PT Contoh Tbk', 'CONTOH'));
+        $this->assertFalse(OssNibResult::namaSama('PT Sumberlaut Bengindo', 'STAROCEAN'));
+    }
+
     public function test_driver_dipilih_dari_konfigurasi(): void
     {
         config(['services.oss.driver' => 'dummy']);

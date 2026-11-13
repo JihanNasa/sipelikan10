@@ -3,7 +3,7 @@
   $ossStatus = $user->oss_status;
   $ossAktif = config('services.oss.driver', 'disabled') !== 'disabled';
   $namaBeda = $user->oss_nama_perusahaan
-      && mb_strtolower(trim($user->oss_nama_perusahaan)) !== mb_strtolower(trim((string) $user->name));
+      && ! \App\Services\Oss\OssNibResult::namaSama($user->oss_nama_perusahaan, $user->name);
 @endphp
 <span class="badge {{ \App\Services\Oss\OssNibResult::badgeFor($ossStatus) }}">{{ \App\Services\Oss\OssNibResult::labelFor($ossStatus) }}</span>
 @if ($user->oss_nama_perusahaan)

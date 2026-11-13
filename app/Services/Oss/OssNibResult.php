@@ -79,6 +79,36 @@ class OssNibResult
         };
     }
 
+    /**
+     * Bandingkan nama UPI dengan nama di OSS tanpa memperhitungkan huruf besar/kecil,
+     * tanda baca, dan awalan/akhiran badan usaha (PT, CV, UD, Koperasi, Yayasan, Tbk, dll).
+     * Contoh: "PT Aneka Dasuib Jaya" dianggap sama dengan "ANEKA DASUIB JAYA".
+     */
+    public static function namaSama(?string $a, ?string $b): bool
+    {
+        $na = self::normalisasiNama($a);
+        $nb = self::normalisasiNama($b);
+
+        if ($na === '' || $nb === '') {
+            return true; // tidak ada pembanding, jangan tampilkan peringatan
+        }
+
+        return $na === $nb;
+    }
+
+    public static function normalisasiNama(?string $nama): string
+    {
+        $nama = mb_strtolower((string) $nama);
+        $nama = preg_replace('/[^\p{L}\p{N}\s]+/u', ' ', $nama);
+        $kataBadanUsaha = ['pt', 'cv', 'ud', 'fa', 'firma', 'tbk', 'persero', 'perum', 'perumda', 'koperasi', 'kop', 'ksu', 'kud', 'yayasan', 'pd'];
+        $kata = array_filter(
+            preg_split('/\s+/u', trim($nama)) ?: [],
+            fn ($k) => $k !== '' && ! in_array($k, $kataBadanUsaha, true)
+        );
+
+        return implode(' ', $kata);
+    }
+
     /** Kelas badge Bootstrap/Stisla untuk tiap status. */
     public static function badgeFor(?string $status): string
     {
