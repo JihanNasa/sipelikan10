@@ -69,7 +69,9 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
             'last_login' => 'datetime', 
             'last_password_change' => 'datetime',
-
+            // Kolom oss_* sengaja TIDAK dimasukkan ke $fillable: hanya OssService yang boleh mengisinya.
+            'oss_checked_at' => 'datetime',
+            'oss_payload' => 'array',
         ];
     }
 

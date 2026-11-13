@@ -34,6 +34,29 @@ class VerifikasiAkunController extends Controller
         return view('stisla.verifikasi.index', compact('usersUnverified', 'usersVerified'));
     }
 
+    /** Cek ulang NIB satu UPI ke OSS RBA (tanpa cache), lalu simpan hasilnya. */
+    public function cekOss(Request $request, $id, \App\Services\Oss\OssService $oss)
+    {
+        $user = User::findOrFail($id);
+
+        if (! $oss->enabled()) {
+            return redirect()->route('verifikasi.index')->with('error', 'Pengecekan OSS belum diaktifkan (OSS_DRIVER=disabled).');
+        }
+        if (empty($user->nib)) {
+            return redirect()->route('verifikasi.index')->with('error', "UPI {$user->name} belum mengisi NIB.");
+        }
+
+        [, $hasil] = $oss->cekUser($user, \App\Services\Oss\OssService::SUMBER_ADMIN, auth()->id());
+
+        $pesan = "NIB {$user->nib} ({$user->name}): " . $hasil->label() . '.';
+        if ($hasil->isTerdaftar() && $hasil->namaPerusahaan) {
+            $pesan .= " Nama di OSS: {$hasil->namaPerusahaan}.";
+        }
+
+        return redirect()->route('verifikasi.index')
+            ->with($hasil->status === \App\Services\Oss\OssNibResult::GAGAL ? 'error' : 'success', $pesan);
+    }
+
     public function verify(Request $request, $id)
     {
         $user = User::findOrFail($id);

@@ -58,4 +58,22 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+
+    /*
+    | Integrasi cek NIB OSS RBA melalui API JELITA (DPMPTSP Jabar) di SPLPD Jawa Barat.
+    | Kredensial produksi HANYA diisi di file .env server, jangan di-commit.
+    */
+    'oss' => [
+        'driver'        => env('OSS_DRIVER', 'disabled'),   // disabled | dummy | api
+        'strict'        => (bool) env('OSS_STRICT', false), // true = NIB tidak ditemukan ditolak saat registrasi
+        'cache_minutes' => (int) env('OSS_CACHE_MINUTES', 720),
+        'rate_per_minute' => (int) env('OSS_RATE_PER_MINUTE', 10),
+        'jelita' => [
+            'base_url' => env('OSS_JELITA_BASE_URL', 'https://api-splp.layanan.go.id/t/jabarprov.go.id'),
+            'path'     => env('OSS_JELITA_PATH', '/dpmptsp-jelita/1.00/nib/proyek/'),
+            'apikey'   => env('OSS_JELITA_APIKEY'),
+            'token'    => env('OSS_JELITA_TOKEN'),
+            'timeout'  => (int) env('OSS_TIMEOUT', 10),
+        ],
+    ],
 ];

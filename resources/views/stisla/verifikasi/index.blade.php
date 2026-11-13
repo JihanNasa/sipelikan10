@@ -61,6 +61,7 @@
                                     <th>Email</th>
                                     <th>Jabatan</th>
                                     <th>NIB</th>
+                                    <th>Status OSS</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -71,6 +72,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->jabatan }}</td>
                                     <td>{{ $user->nib }}</td>
+                                    <td>@include('stisla.verifikasi._oss-status', ['user' => $user])</td>
                                     <td class="text-center">
                                         <form method="POST" action="{{ route('verifikasi.verify', $user->id) }}" class="d-inline form-verify">
                                             @csrf
@@ -89,7 +91,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">Tidak ada data pengguna yang perlu diverifikasi.</td>
+                                    <td colspan="6" class="text-center">Tidak ada data pengguna yang perlu diverifikasi.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -114,6 +116,7 @@
                                     <th>Email</th>
                                     <th>Jabatan</th>
                                     <th>NIB</th>
+                                    <th>Status OSS</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -124,6 +127,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->jabatan }}</td>
                                     <td>{{ $user->nib }}</td>
+                                    <td>@include('stisla.verifikasi._oss-status', ['user' => $user])</td>
                                     <td class="text-center">
                                         @if($user->is_active)
                                             <button type="button" class="btn btn-warning btn-sm btn-deactivate"
@@ -145,7 +149,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">Tidak ada data pengguna yang sudah diverifikasi.</td>
+                                    <td colspan="6" class="text-center">Tidak ada data pengguna yang sudah diverifikasi.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

@@ -92,6 +92,11 @@ class AuthController extends StislaController
      */
     public function register(RegisterRequest $request)
     {
+        // Cek NIB ke OSS RBA sebelum transaksi database (panggilan ke luar bisa lambat).
+        // Tidak pernah menggagalkan registrasi: hasilnya hanya disimpan sebagai tanda untuk admin.
+        $oss = app(\App\Services\Oss\OssService::class);
+        $ossResult = $oss->cek((string) $request->input('nib'), \App\Services\Oss\OssService::SUMBER_REGISTRASI);
+
         try {
             DB::beginTransaction();
     
@@ -103,6 +108,13 @@ class AuthController extends StislaController
     
             $user = $this->userRepository->create($data);
             $this->userRepository->assignRole($user, 'user');
+
+            try {
+                $oss->terapkanKeUser($user, $ossResult);
+                $oss->kaitkanRiwayat($user);
+            } catch (\Throwable $e) {
+                \Log::warning('Gagal menyimpan hasil cek OSS: ' . $e->getMessage());
+            }
     
             // Notifikasi ke admin — kegagalan di sini tidak membatalkan registrasi
             try {

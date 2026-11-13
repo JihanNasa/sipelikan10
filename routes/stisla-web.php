@@ -82,4 +82,12 @@ Route::prefix('verifikasi')->name('verifikasi.')->group(function () {
 
     // Aktifkan user (POST)
     Route::post('{id}/activate', [VerifikasiAkunController::class, 'activate'])->name('activate');
+
+    // Cek ulang NIB ke OSS RBA (POST)
+    Route::post('{id}/cek-oss', [VerifikasiAkunController::class, 'cekOss'])->name('cek-oss');
 });
+
+# CEK NIB OSS RBA (formulir registrasi; publik, dibatasi jumlah permintaannya)
+Route::post('oss/cek-nib', [\App\Http\Controllers\OssNibController::class, 'cek'])
+    ->middleware('throttle:oss-nib')
+    ->name('oss.cek-nib');

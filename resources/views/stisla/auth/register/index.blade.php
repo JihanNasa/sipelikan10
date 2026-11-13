@@ -51,7 +51,11 @@
         'value' => old('nib'),
         'required' => true,
         'icon' => 'fas fa-pen',
-    ]) 
+    ])
+      @if (config('services.oss.driver', 'disabled') !== 'disabled')
+        {{-- Hasil cek NIB ke OSS RBA (diisi oleh script di bawah) --}}
+        <div id="oss-nib-feedback" class="small mb-3" style="margin-top:-12px" role="status" aria-live="polite"></div>
+      @endif
 
       {{-- No HP --}}
       @include('stisla.includes.forms.inputs.input', [
@@ -119,3 +123,68 @@
 @endsection
 
 @include('stisla.auth.script-gcaptcha')
+
+@if (config('services.oss.driver', 'disabled') !== 'disabled')
+  @push('scripts')
+    <script>
+      (function () {
+        var input = document.getElementById('nib');
+        var box = document.getElementById('oss-nib-feedback');
+        var nameInput = document.getElementById('name');
+        if (!input || !box) return;
+        var lastChecked = null;
+
+        function show(text, cls) {
+          box.className = 'small mb-3 ' + cls;
+          box.textContent = text;
+        }
+
+        function cek() {
+          var nib = (input.value || '').trim();
+          if (!/^\d{13}$/.test(nib)) { box.textContent = ''; lastChecked = null; return; }
+          if (nib === lastChecked) return;
+          lastChecked = nib;
+          show('Memeriksa NIB ke OSS RBA…', 'text-muted');
+
+          fetch(@json(route('oss.cek-nib')), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'X-CSRF-TOKEN': @json(csrf_token())
+            },
+            body: JSON.stringify({ nib: nib })
+          })
+            .then(function (r) {
+              if (r.status === 429) throw new Error('limit');
+              return r.json();
+            })
+            .then(function (res) {
+              if (!res.enabled) { box.textContent = ''; return; }
+              if (res.status === 'terdaftar') {
+                var detail = [res.nama_perusahaan, res.kab_kota].filter(Boolean).join(' · ');
+                show('✔ ' + res.message + (detail ? ' ' + detail : ''), 'text-success');
+                if (nameInput && !nameInput.value && res.nama_perusahaan) {
+                  nameInput.value = res.nama_perusahaan;
+                }
+              } else if (res.status === 'tidak_ditemukan') {
+                show(res.message, 'text-danger');
+              } else {
+                show(res.message, 'text-warning');
+              }
+            })
+            .catch(function (e) {
+              lastChecked = null;
+              show(e.message === 'limit'
+                ? 'Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.'
+                : 'NIB belum dapat dicek saat ini. Anda tetap dapat mendaftar.', 'text-warning');
+            });
+        }
+
+        input.addEventListener('input', cek);
+        input.addEventListener('blur', cek);
+        if (input.value) cek();
+      })();
+    </script>
+  @endpush
+@endif
